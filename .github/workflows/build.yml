@@ -12,10 +12,6 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v4
 
-      - name: Clone Required Sibling Repo (release-tools)
-        run: |
-          git clone https://github.com/robmat/release-tools.git ../release-tools
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -29,18 +25,13 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-configuration-cache --stacktrace
 
-      # /tmp ফোল্ডার সহ পুরো মেশিন থেকে APK খুঁজে apk_output ফোল্ডারে আনা
       - name: Collect Generated APK
         run: |
           mkdir -p apk_output
-          echo "=== Searching for APK in /tmp/gradle-builds and workspace ==="
           find /tmp/gradle-builds -name "*.apk" -type f -exec cp -v {} apk_output/ \; || true
           find /home/runner/work -name "*.apk" -type f -exec cp -v {} apk_output/ \; || true
-          
-          echo "=== Collected APK Files ==="
           ls -la apk_output
 
-      # আপনার জন্য APK ডাউনলোড বাটন তৈরি করা
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:

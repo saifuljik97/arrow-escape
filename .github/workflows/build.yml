@@ -26,17 +26,23 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
+      # সরাসরি :app মডিউলকে টার্গেট করে APK তৈরির নির্দেশ
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew :app:assembleDebug --stacktrace
 
-      - name: List Generated APK Files
+      # তৈরি হওয়া APK ফাইল খুঁজে বের করে এক জায়গায় আনা
+      - name: Collect Generated APK
         run: |
-          echo "Looking for generated APKs..."
-          find . -name "*.apk" -type f
+          mkdir -p apk_output
+          echo "=== Searching for APK files ==="
+          find . -name "*.apk" -type f -exec cp {} apk_output/ \;
+          echo "=== Found files in apk_output ==="
+          ls -la apk_output
 
+      # ব্যবহারকারীর ডাউনলোডের জন্য আপলোড করা
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: Skein-Debug-APK
-          path: "**/*.apk"
+          name: ArrowEscape-Debug-APK
+          path: apk_output/*.apk
           if-no-files-found: error

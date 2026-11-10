@@ -1,6 +1,5 @@
 pluginManagement {
     includeBuild("build-logic")
-    includeBuild("../release-tools")
     repositories {
         google {
             content {
@@ -20,14 +19,9 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
     }
-    versionCatalogs {
-        create("libs") {
-            from(files("../release-tools/gradle/libs.versions.toml"))
-        }
-    }
 }
 
-rootProject.name = "Skein"
+rootProject.name = "ArrowEscape"
 include(":app")
 include(":core:models")
 include(":core:resources")

@@ -11,12 +11,12 @@ file("version.properties").inputStream().use { versionProps.load(it) }
 
 android {
     namespace = "com.batodev.arrows"
-    compileSdk = 37
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dtzllc.arrowescape"
         minSdk = 29
-        targetSdk = 37
+        targetSdk = 35
         versionCode = versionProps.getProperty("versionCode").toInt()
         versionName = versionProps.getProperty("versionName")
 

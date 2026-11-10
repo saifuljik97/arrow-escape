@@ -12,7 +12,6 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v4
 
-      # এই প্রজেক্টের বিল্ড হওয়ার জন্য পাশে release-tools প্রজেক্টটি প্রয়োজন হয়
       - name: Clone Required Sibling Repo (release-tools)
         run: |
           git clone https://github.com/robmat/release-tools.git ../release-tools
@@ -30,9 +29,14 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
 
+      - name: List Generated APK Files
+        run: |
+          echo "Looking for generated APKs..."
+          find . -name "*.apk" -type f
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: Skein-Debug-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: "**/*.apk"
           if-no-files-found: error

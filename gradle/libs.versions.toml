@@ -1,0 +1,78 @@
+[versions]
+agp = "8.8.2"
+kotlin = "2.3.10"
+ksp = "2.3.6"
+composeBom = "2026.02.01"
+coreKtx = "1.17.0"
+lifecycleRuntime = "2.10.0"
+activityCompose = "1.12.4"
+koin = "4.0.0"
+room = "2.8.4"
+coroutines = "1.10.2"
+playServicesAds = "25.0.0"
+ump = "4.0.0"
+workRuntime = "2.9.0"
+appyx = "1.7.1"
+aboutLibraries = "14.0.0-b02"
+konfetti = "2.0.5"
+playReview = "2.0.2"
+junit = "4.13.2"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntime" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntime" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "1.2.1" }
+androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-futures-ktx", version = "1.2.0" }
+androidx-annotation-experimental = { module = "androidx.annotation:annotation-experimental", version = "1.4.1" }
+
+# Compose
+arrows-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+
+# Koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+# Room
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+# Navigation & UI
+bumble-appyx-core = { module = "com.bumble.appyx:core", version.ref = "appyx" }
+bumble-appyx-testing-ui = { module = "com.bumble.appyx:testing-ui", version.ref = "appyx" }
+bumble-appyx-testing-ui-activity = { module = "com.bumble.appyx:testing-ui-activity", version.ref = "appyx" }
+bumble-appyx-testing-unit-common = { module = "com.bumble.appyx:testing-unit-common", version.ref = "appyx" }
+bumble-appyx-testing-junit5 = { module = "com.bumble.appyx:testing-junit5", version.ref = "appyx" }
+dionsegijn-konfetti-compose = { module = "nl.dionsegijn.konfetti:konfetti-compose", version.ref = "konfetti" }
+mikepenz-aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
+google-play-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "playReview" }
+
+# Ads
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+google-ump = { module = "com.google.android.ump:user-messaging-platform", version.ref = "ump" }
+
+# Testing
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version = "1.2.1" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version = "3.6.1" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version = "3.6.1" }
+mockito-core = { module = "org.mockito:mockito-core", version = "5.22.0" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "6.2.3" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "2.0.0-alpha.2" }

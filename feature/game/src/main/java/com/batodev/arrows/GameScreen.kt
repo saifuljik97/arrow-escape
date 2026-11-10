@@ -50,6 +50,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.batodev.arrows.ads.InterstitialAdManager
 import com.batodev.arrows.ads.RewardAdManager
@@ -75,19 +76,6 @@ import com.batodev.arrows.ui.theme.ProgressBarGreen
 import com.batodev.arrows.ui.theme.ThemeColors
 import com.batodev.arrows.ui.theme.White
 import kotlinx.coroutines.launch
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import java.util.concurrent.TimeUnit
-
-private val CONFETTI_COLORS =
-    listOf(
-        GameConstants.CONFETTI_COLOR_1,
-        GameConstants.CONFETTI_COLOR_2,
-        GameConstants.CONFETTI_COLOR_3,
-        GameConstants.CONFETTI_COLOR_4,
-    )
 
 @Composable
 fun SkeinGameView(
@@ -99,10 +87,6 @@ fun SkeinGameView(
     gameStateDao: GameStateDao,
     customParams: CustomGameParams = CustomGameParams(false, null, null, null),
     onBack: () -> Unit = {},
-    // Acquired in a default parameter (not the body) so the ViewModel is an
-    // explicit, overridable dependency - what compose-rules' vm-injection-check
-    // asks for. LocalView/LocalContext are read here since default-arg
-    // expressions of a @Composable still run in composition scope.
     engine: GameEngine =
         viewModel(
             factory =
@@ -124,7 +108,6 @@ fun SkeinGameView(
     val introState = rememberIntroState(appViewModel, uiState is GameUiState.Loading, engine.level.snakes.size)
     val isWinVideosEnabled by appViewModel.isWinVideosEnabled.collectAsState()
     val showBannerAds by appViewModel.showBannerAds.collectAsState()
-    var confettiState by remember { mutableStateOf<List<Party>>(emptyList()) }
     var showGuidanceLines by remember { mutableStateOf(false) }
     var showCelebrationVideo by remember { mutableStateOf(false) }
     val guidanceAlpha by animateFloatAsState(
@@ -151,10 +134,9 @@ fun SkeinGameView(
             uiState = uiState,
             isWinVideosEnabled = isWinVideosEnabled,
             onShowCelebration = { showCelebrationVideo = true },
-            onFinishWithoutCelebration = { finishGameAfterCelebration(gameWonParams, waitForConfetti = true) },
+            onFinishWithoutCelebration = { finishGameAfterCelebration(gameWonParams, waitForConfetti = false) },
         )
     }
-    confettiState = updateConfettiState(uiState, confettiState)
     val handleHint =
         buildHintHandler(
             HintHandlerParams(isAdFree, isAdLoading, isAdLoaded, engine, activity, rewardAdManager),
@@ -219,35 +201,6 @@ private fun HandleGameWonState(
     }
 }
 
-@Composable
-private fun updateConfettiState(
-    uiState: GameUiState,
-    currentState: List<Party>,
-): List<Party> {
-    val isWon = uiState is GameUiState.Won
-    return if (isWon && currentState.isEmpty()) {
-        listOf(
-            Party(
-                speed = 0f,
-                maxSpeed = GameConstants.CONFETTI_MAX_SPEED,
-                damping = GameConstants.CONFETTI_DAMPING,
-                spread = GameConstants.CONFETTI_SPREAD,
-                colors = CONFETTI_COLORS,
-                position = Position.Relative(GameConstants.CONFETTI_REL_X, GameConstants.CONFETTI_REL_Y),
-                emitter =
-                    Emitter(
-                        duration = GameConstants.CONFETTI_DURATION_MS,
-                        TimeUnit.MILLISECONDS,
-                    ).max(GameConstants.CONFETTI_EMITTER_MAX),
-            ),
-        )
-    } else if (!isWon && currentState.isNotEmpty()) {
-        emptyList()
-    } else {
-        currentState
-    }
-}
-
 const val GAME_AREA_TEST_TAG = "game_area"
 
 @Composable
@@ -286,10 +239,6 @@ private fun ColumnScope.GameArea(params: GameAreaParams) {
                 if (params.celebrationParams.showCelebration) {
                     WinCelebrationScreen(onCelebrationComplete = params.celebrationParams.onCelebrationComplete)
                 }
-                KonfettiView(
-                    modifier = Modifier.fillMaxSize(),
-                    parties = updateConfettiState(params.uiState, emptyList()),
-                )
             }
 
             is GameUiState.GameOver -> {

@@ -22,7 +22,6 @@ android {
 
 dependencies {
     implementation(libs.koin.android)
-    implementation(libs.dionsegijn.konfetti.compose)
     implementation(libs.androidx.core.ktx) { version { strictly("1.17.0") } }
     implementation(project(":feature:home"))
     implementation(project(":domain"))

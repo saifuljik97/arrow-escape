@@ -4,19 +4,9 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.detekt)
-    // aboutlibraries isn't in the shared catalog (single-repo use).
     id("com.mikepenz.aboutlibraries.plugin.android") version "14.0.0-b02" apply false
     alias(libs.plugins.ksp) apply false
     id("jacoco")
-}
-
-detekt {
-    buildUponDefaultConfig = true
-    config.setFrom(files("config/detekt/detekt.yml"))
-    source.setFrom(
-        subprojects.map { "${it.projectDir}/src" }
-    )
 }
 
 subprojects {

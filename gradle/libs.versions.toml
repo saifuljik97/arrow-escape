@@ -14,7 +14,7 @@ ump = "4.0.0"
 workRuntime = "2.9.0"
 appyx = "1.7.1"
 aboutLibraries = "14.0.0-b02"
-konfetti = "2.0.5"
+konfetti = "2.0.4"
 playReview = "2.0.2"
 junit = "4.13.2"
 
@@ -62,7 +62,7 @@ google-ump = { module = "com.google.android.ump:user-messaging-platform", versio
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
-androidx-test-ext-junit = { module = "androidx.test.ext:junit", version = "1.2.1" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version = "3.6.1" }
 androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version = "3.6.1" }
 mockito-core = { module = "org.mockito:mockito-core", version = "5.22.0" }
@@ -75,4 +75,3 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "2.0.0-alpha.2" }

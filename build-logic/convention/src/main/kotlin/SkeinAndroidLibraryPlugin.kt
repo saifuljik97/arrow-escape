@@ -9,7 +9,7 @@ class SkeinAndroidLibraryPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("com.android.library")
             extensions.configure<LibraryExtension> {
-                compileSdk = 37
+                compileSdk = 35
                 defaultConfig {
                     minSdk = 29
                 }

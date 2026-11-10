@@ -1,22 +1,25 @@
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
-class SkeinAndroidLibraryPlugin : Plugin<Project> {
+class SkeinAndroidLibraryComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("com.android.library")
+            pluginManager.apply("arrows.android.library")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
+
             extensions.configure<LibraryExtension> {
-                compileSdk = 35
-                defaultConfig {
-                    minSdk = 29
+                buildFeatures {
+                    compose = true
                 }
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_11
-                    targetCompatibility = JavaVersion.VERSION_11
-                }
+            }
+
+            dependencies {
+                add("implementation", platform("androidx.compose:compose-bom:2026.02.01"))
+                add("implementation", "androidx.compose.ui:ui")
+                add("implementation", "androidx.compose.material3:material3")
             }
         }
     }

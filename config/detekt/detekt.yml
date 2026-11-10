@@ -1,0 +1,39 @@
+naming:
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+
+complexity:
+  LongMethod:
+    active: true
+    ignoreAnnotated: ['Composable']
+  LongParameterList:
+    active: true
+    ignoreAnnotated: ['Composable']
+  TooManyFunctions:
+    active: true
+    ignoreOverridden: true
+    ignoreAnnotatedFunctions: ['Composable']
+    # GameStateDao has 12: 9 Room-generated CRUD primitives (one @Insert/@Query per
+    # distinct entity/column - Room requires each as its own abstract method) plus 3
+    # @Transaction composite methods. Room only honors @Transaction on a method inside
+    # the @Dao class itself, so the composites can't move to a separate repository
+    # without losing the atomicity guarantee.
+    # thresholdInClasses is inclusive under io.gitlab.arturbosch.detekt (triggers
+    # at count >= threshold, unlike dev.detekt's exclusive allowedFunctionsPerClass) -
+    # set to 13 so GameStateDao's 12 functions stay allowed.
+    thresholdInClasses: 13
+
+style:
+  MagicNumber:
+    active: true
+    ignoreNumbers: ['-1', '0', '1', '2', '100']
+    ignoreAnnotated: ['Composable', 'Preview']
+    ignoreConstantDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreEnums: true
+    ignoreRanges: true
+    excludes: ['**/test/**', '**/androidTest/**']
+  MaxLineLength:
+    active: true
+    maxLineLength: 160
+    excludeCommentStatements: true

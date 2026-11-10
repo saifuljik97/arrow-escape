@@ -26,22 +26,20 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      # শুধুমাত্র Debug APK তৈরি করার চূড়ান্ত নির্দেশ
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-configuration-cache --stacktrace
 
-      # তৈরি হওয়া APK ফাইল খুঁজে বের করে apk_output ফোল্ডারে কপি করা
-      - name: Collect Generated APK
+      # app/build ফোল্ডারে কী কী ফাইল তৈরি হয়েছে তা পুরো খুঁজে দেখা
+      - name: Find and Print All Generated Files
         run: |
-          mkdir -p apk_output
-          find app/build/outputs -type f -name "*.apk" -exec cp -v {} apk_output/ \; || true
-          find . -type f -name "*.apk" -exec cp -v {} apk_output/ \; || true
-          ls -la apk_output
-
-      # ব্যবহারকারীর জন্য ডাউনলোড ফাইল আপলোড করা
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: ArrowEscape-Debug-APK
-          path: apk_output/
-          if-no-files-found: error
+          echo "=== 1. Checking outputs folder ==="
+          ls -laR app/build/outputs || true
+          
+          echo "=== 2. Looking for all APK files ==="
+          find app/build -type f -name "*.apk" || true
+          
+          echo "=== 3. Looking for all AAB files ==="
+          find app/build -type f -name "*.aab" || true
+          
+          echo "=== 4. Listing all files inside app/build/outputs/apk ==="
+          ls -laR app/build/outputs/apk || true

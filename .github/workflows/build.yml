@@ -29,17 +29,21 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-configuration-cache --stacktrace
 
-      # app/build ফোল্ডারে কী কী ফাইল তৈরি হয়েছে তা পুরো খুঁজে দেখা
-      - name: Find and Print All Generated Files
+      # /tmp ফোল্ডার সহ পুরো মেশিন থেকে APK খুঁজে apk_output ফোল্ডারে আনা
+      - name: Collect Generated APK
         run: |
-          echo "=== 1. Checking outputs folder ==="
-          ls -laR app/build/outputs || true
+          mkdir -p apk_output
+          echo "=== Searching for APK in /tmp/gradle-builds and workspace ==="
+          find /tmp/gradle-builds -name "*.apk" -type f -exec cp -v {} apk_output/ \; || true
+          find /home/runner/work -name "*.apk" -type f -exec cp -v {} apk_output/ \; || true
           
-          echo "=== 2. Looking for all APK files ==="
-          find app/build -type f -name "*.apk" || true
-          
-          echo "=== 3. Looking for all AAB files ==="
-          find app/build -type f -name "*.aab" || true
-          
-          echo "=== 4. Listing all files inside app/build/outputs/apk ==="
-          ls -laR app/build/outputs/apk || true
+          echo "=== Collected APK Files ==="
+          ls -la apk_output
+
+      # আপনার জন্য APK ডাউনলোড বাটন তৈরি করা
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ArrowEscape-Debug-APK
+          path: apk_output/*.apk
+          if-no-files-found: error
